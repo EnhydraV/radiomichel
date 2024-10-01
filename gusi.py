@@ -12,15 +12,14 @@ vol = 30
 btn_clk = RotaryEncoder(23, 27, max_steps=4)
 btn_sw = Button(22)
 led = LED(14)
-S1 = "https://server7.streamserver24.com:61424/stream"
-S2 = "http://www.segenswelle.de:8000/deutsch"
-S3 = "https://server23644.streamplus.de/stream.mp3"
+S1 = "https://listen.radioking.com/radio/142981/stream/183163"
+S2 = "https://radiomichel.enhydra.fr/rm20240111.mp3"
 
 #---------- RADIO STATIONS ORDER ----------#
-stations = [S1, S2, S3]
+stations = [S1, S2]
 
 #---------- ANNOUNCEMENTS ORDER ----------#
-announcements = ["s1.mp3", "s2.mp3", "s3.mp3"]
+announcements = ["s1.mp3", "s2.mp3"]
 
 #---------- DEFINITIONS ----------#
 def change_station():

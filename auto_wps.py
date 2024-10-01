@@ -32,7 +32,7 @@ time.sleep(3)
 print("reset wpa_supplicant.conf")
 new_config = """ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
-country=DE
+country=FR
 """
 with open("/etc/wpa_supplicant/wpa_supplicant.conf", "w") as f:
     f.write(new_config)
