@@ -4,12 +4,12 @@ echo "Stop MPD service"
 sudo service mpd stop
 
 echo "Moving files"
-sudo cp /home/pi/gusi-radio/8192cu.conf /etc/modprobe.d/
-sudo cp /home/pi/gusi-radio/asound.conf /etc/
-sudo cp /home/pi/gusi-radio/mpd.conf /etc/
-sudo cp /home/pi/gusi-radio/FR/* /var/lib/mpd/music/
-sudo cp /home/pi/gusi-radio/cleanshutd.conf /etc/
-sudo cp /home/pi/gusi-radio/rc.local /etc/
+sudo cp /root/gusi-radio/8192cu.conf /etc/modprobe.d/
+sudo cp /root/gusi-radio/asound.conf /etc/
+sudo cp /root/gusi-radio/mpd.conf /etc/
+sudo cp /root/gusi-radio/FR/* /var/lib/mpd/music/
+sudo cp /root/gusi-radio/cleanshutd.conf /etc/
+sudo cp /root/gusi-radio/rc.local /etc/
 
 echo "Cleaning up"
 sudo systemctl stop dphys-swapfile
