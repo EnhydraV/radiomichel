@@ -98,7 +98,7 @@ while connection_attempts < 4:
                 subprocess.call(["mpc", "play"])
                 subprocess.call(["mpc", "repeat", "off"])
                 time.sleep(34)
-                os.system("python3 /home/gusi/gusi-radio/gusi.py")
+                os.system("python3 /root/gusi-radio/gusi.py")
                 quit()
                 break
         

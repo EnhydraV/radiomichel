@@ -4,22 +4,22 @@ echo "Stop MPD service"
 sudo service mpd stop
 
 echo "Moving files"
-sudo mv /home/gusi/gusi-radio/8192cu.conf /etc/modprobe.d/
-sudo mv /home/gusi/gusi-radio/asound.conf /etc/
-sudo mv /home/gusi/gusi-radio/mpd.conf /etc/
-sudo mv /home/gusi/gusi-radio/DE/* /var/lib/mpd/music/
-sudo mv /home/gusi/gusi-radio/cleanshutd.conf /etc/
-sudo mv /home/gusi/gusi-radio/rc.local /etc/
+sudo mv /root/gusi-radio/8192cu.conf /etc/modprobe.d/
+sudo mv /root/gusi-radio/asound.conf /etc/
+sudo mv /root/gusi-radio/mpd.conf /etc/
+sudo mv /root/gusi-radio/DE/* /var/lib/mpd/music/
+sudo mv /root/gusi-radio/cleanshutd.conf /etc/
+sudo mv /root/gusi-radio/rc.local /etc/
 
 echo "Cleaning up"
-sudo rm -r /home/gusi/gusi-radio/DE
-sudo rm -r /home/gusi/gusi-radio/EN
-sudo rm -r /home/gusi/gusi-radio/.gitattributes
-sudo rm -r /home/gusi/gusi-radio/.gitignore
-sudo rm -r /home/gusi/gusi-radio/LICENSE
-sudo rm -r /home/gusi/gusi-radio/README.md
-sudo rm -r /home/gusi/gusi-radio/.git
-sudo rm -r /home/gusi/gusi-radio/onoffshim
+sudo rm -r /root/gusi-radio/DE
+sudo rm -r /root/gusi-radio/EN
+sudo rm -r /root/gusi-radio/.gitattributes
+sudo rm -r /root/gusi-radio/.gitignore
+sudo rm -r /root/gusi-radio/LICENSE
+sudo rm -r /root/gusi-radio/README.md
+sudo rm -r /root/gusi-radio/.git
+sudo rm -r /root/gusi-radio/onoffshim
 sudo systemctl stop dphys-swapfile
 sudo systemctl disable dphys-swapfile
 sudo systemctl disable keyboard-setup.service

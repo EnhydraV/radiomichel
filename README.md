@@ -210,19 +210,19 @@ git clone https://github.com/earlmckay/gusi-radio.git
 <br><color style='color: #16A085'>3.6)</color> Make the script executable and run it (choose between German and English):<br>
 <img src="images/flag_de.svg" alt=(DE) style="width:16px"> For German:
 ```
-chmod +x /home/gusi/gusi-radio/setup_gusi_DE.sh
+chmod +x /root/gusi-radio/setup_gusi_DE.sh
 ```
 ```
-sudo /home/gusi/gusi-radio/setup_gusi_DE.sh
+sudo /root/gusi-radio/setup_gusi_DE.sh
 ```
 <br>
 
 <img src="images/flag_en.svg" alt=(EN) style="width:16px"> For English:
 ```
-chmod +x /home/gusi/gusi-radio/setup_gusi_DE.sh
+chmod +x /root/gusi-radio/setup_gusi_DE.sh
 ```
 ```
-sudo /home/gusi/gusi-radio/setup_gusi_DE.sh
+sudo /root/gusi-radio/setup_gusi_DE.sh
 ```
 
 <hr>
@@ -233,7 +233,7 @@ sudo /home/gusi/gusi-radio/setup_gusi_DE.sh
 
 
 ```
-sudo nano /home/gusi/gusi-radio/gusi.py
+sudo nano /root/gusi-radio/gusi.py
 ```
 
 Each time the button is pressed, the script switches to the next station (defined in variables S1, S2, S3), and an announcement (s1.mp3, s2.mp3, s3.mp3) is played to indicate which station can now be heard.) The announcements are generic and say “Station one”. 
@@ -282,7 +282,7 @@ mpc update
 <color style='color: #16A085'>4.2)</color> Customise the WiFi Country in the auto-wps.py:<br>
 
 ```
-nano /home/gusi/gusi-radio/auto_wps.py
+nano /root/gusi-radio/auto_wps.py
 ```
 
 Search for "country" (Linie 35):
