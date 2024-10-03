@@ -3,6 +3,7 @@
 cd /root/gusi-radio
 git stash
 git pull
+chmod 755 *.sh
 
 echo "Stop MPD service"
 sudo service mpd stop
