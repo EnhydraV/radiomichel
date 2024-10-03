@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd /var/lib/mpd/music
+wget https://radiomichel.enhydra.fr/rm20240111.mp3
+
 cd /root/gusi-radio
 git stash
 git pull

@@ -13,7 +13,7 @@ btn_clk = RotaryEncoder(23, 27, max_steps=4)
 btn_sw = Button(22)
 led = LED(14)
 S1 = "https://listen.radioking.com/radio/142981/stream/183163"
-S2 = "https://radiomichel.enhydra.fr/rm20240111.mp3"
+S2 = "/var/lib/mpd/music/rm20240111.mp3"
 
 #---------- RADIO STATIONS ORDER ----------#
 stations = [S1, S2]
