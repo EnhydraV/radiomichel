@@ -1,0 +1,6 @@
+#!/bin/sh
+mpc clear
+mpc repeat off
+mpc add shutdown.mp3
+mpc play
+shutdown now
