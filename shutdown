@@ -3,4 +3,6 @@ mpc clear
 mpc repeat off
 mpc add shutdown.mp3
 mpc play
+sleep 15
+mpc clear
 /usr/sbin/shutdown now
