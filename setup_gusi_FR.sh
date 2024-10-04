@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd /var/lib/mpd/music
-wget https://radiomichel.enhydra.fr/rm20240111.mp3
+#cd /var/lib/mpd/music
+#wget https://radiomichel.enhydra.fr/rm20240111.mp3
 
 cd /root/gusi-radio
 git stash
@@ -12,6 +12,8 @@ echo "Stop MPD service"
 sudo service mpd stop
 
 echo "Moving files"
+sudo cp /root/gusi-radio/shutdown /usr/local/bin/
+chmod 755 /usr/local/bin/shutdown
 sudo cp /root/gusi-radio/8192cu.conf /etc/modprobe.d/
 sudo cp /root/gusi-radio/asound.conf /etc/
 sudo cp /root/gusi-radio/mpd.conf /etc/
