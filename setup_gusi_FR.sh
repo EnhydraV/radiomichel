@@ -13,7 +13,6 @@ sudo service mpd stop
 
 echo "Moving files"
 sudo cp /root/gusi-radio/shutdown /usr/local/bin/
-chmod 755 /usr/local/bin/shutdown
 sudo cp /root/gusi-radio/8192cu.conf /etc/modprobe.d/
 sudo cp /root/gusi-radio/asound.conf /etc/
 sudo cp /root/gusi-radio/mpd.conf /etc/
@@ -32,6 +31,7 @@ echo "Set permission"
 sudo chmod +x /etc/rc.local
 sudo chmod -R g+w /var/lib/mpd
 sudo chmod -R g+w /var/run/mpd
+sudo chmod 755 /usr/local/bin/shutdown
 
 echo "Start MPD service"
 sudo systemctl enable mpd.service
