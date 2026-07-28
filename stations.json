@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "updated": "2026-07-28",
+  "stations": [
+    {
+      "id": "live",
+      "name": "Radio Michel Live",
+      "type": "stream",
+      "url": "https://listen.radioking.com/radio/142981/stream/183163",
+      "updated": "2026-07-28",
+      "announcement": "s1.mp3"
+    },
+    {
+      "id": "rmil",
+      "name": "Radio Michel il y a longtemps",
+      "type": "mp3",
+      "url": "https://radiomichel.enhydra.fr/rmil.mp3",
+      "updated": "2025-03-02",
+      "announcement": "s2.mp3"
+    },
+    {
+      "id": "rm20240111",
+      "name": "Radio Michel du 11/01/2024",
+      "type": "mp3",
+      "url": "https://radiomichel.enhydra.fr/rm20240111.mp3",
+      "updated": "2024-01-11",
+      "announcement": "s3.mp3"
+    }
+  ]
+}

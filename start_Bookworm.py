@@ -59,6 +59,16 @@ def run_auto_wps_script():
     subprocess.call(["python3", "/root/gusi-radio/auto_wps.py"])
     quit()
 
+def run_update():
+    # Mise a jour code + stations avant de lancer la radio. Un echec ne doit
+    # jamais empecher le demarrage : updater.py retombe sur la liste en cache.
+    print("Running update")
+    led.blink(on_time=0.2, off_time=0.2)
+    try:
+        subprocess.call(["python3", "/root/gusi-radio/updater.py"], timeout=600)
+    except (OSError, subprocess.SubprocessError) as error:
+        print("Update failed: " + str(error))
+
 def main():
     led.blink(on_time=0.6, off_time=0.6)
     
@@ -70,6 +80,7 @@ def main():
 
             # Local OK / internet OK
             if check_internet_connection():
+                run_update()
                 led.on()
                 time.sleep(1)
                 subprocess.Popen(["python3", "/root/gusi-radio/gusi.py"])

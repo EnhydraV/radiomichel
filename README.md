@@ -229,41 +229,53 @@ sudo /root/gusi-radio/setup_gusi_DE.sh
 
 <h3>4) Customize the Software</h3> 
 
-<color style='color: #16A085'>4.1)</color> Customise the radio stations in the gusi.py:<br>
+<color style='color: #16A085'>4.1)</color> Customise the radio stations in <b>stations.json</b>:<br>
 
-
-```
-sudo nano /root/gusi-radio/gusi.py
-```
-
-Each time the button is pressed, the script switches to the next station (defined in variables S1, S2, S3), and an announcement (s1.mp3, s2.mp3, s3.mp3) is played to indicate which station can now be heard.) The announcements are generic and say “Station one”. 
-
-<b>Customize radio station:</b><br>
-Change the URLs for "S1", "S2" and "S3" in the "VAR DEFINITIONS" area.
+The stations are no longer hardcoded in gusi.py. They are described in the file
+<b>stations.json</b> at the root of this repository, which is read from GitHub at
+every boot (see <a href="#auto-update">Automatic update</a>). Each time the button is
+pressed, the radio switches to the next station of that list and plays the matching
+announcement (s1.mp3, s2.mp3, ...) to indicate which station can now be heard. The
+announcements are generic and say "Station one".
 
 <div class="warning" style='padding:0.8em; background-color:#999999; color:black'>
-#---------- VAR DEFINITION ----------#<br>
-S1 = "https://server7.stream.com/stream"<br>
-S2 = "http://www.sw.de:8000/de"<br>
-S3 = "https://streamplus.de/stream.mp3"<br>
+{<br>
+&nbsp;&nbsp;"version": 1,<br>
+&nbsp;&nbsp;"stations": [<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "id": "live", "name": "My live radio", "type": "stream",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"url": "https://server7.stream.com/stream", "updated": "2026-07-28",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"announcement": "s1.mp3" },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{ "id": "archive", "name": "Last show", "type": "mp3",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"url": "https://example.com/show.mp3", "updated": "2026-07-28",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"announcement": "s2.mp3" }<br>
+&nbsp;&nbsp;]<br>
+}
 </div><br>
 
-If more stations are needed, the list of variables can be extended with "S4", "S5" ... .<br>
+<table>
+<tr><td><b>id</b></td><td>Unique identifier, also used as the local file name for a
+mp3 station (<code>id.mp3</code>). Only letters, digits, <code>-</code> and
+<code>_</code> are kept.</td></tr>
+<tr><td><b>name</b></td><td>Free label, only used in the logs.</td></tr>
+<tr><td><b>type</b></td><td><code>stream</code> = played directly from its url.<br>
+<code>mp3</code> = downloaded to <code>/var/lib/mpd/music</code> and played
+locally.</td></tr>
+<tr><td><b>url</b></td><td>http(s) address of the stream or of the mp3 file.</td></tr>
+<tr><td><b>updated</b></td><td>Free text (a date is the obvious choice). For a
+<code>mp3</code> station, the file is downloaded again as soon as this value differs
+from the one recorded locally. Change it whenever you publish a new file behind the
+same url.</td></tr>
+<tr><td><b>announcement</b></td><td>Optional. Announcement played before the station.
+Defaults to <code>s&lt;position&gt;.mp3</code>.</td></tr>
+<tr><td><b>enabled</b></td><td>Optional. Set to <code>false</code> to keep an entry in
+the file without putting it in the rotation.</td></tr>
+</table>
+<br>
 
-<b>Set order:</b><br>
-By listing the channels defined above, you can choose which should be included in the rotation and in which order.
-<div class="warning" style='padding:0.8em; background-color:#999999; color:black'>
-#---------- RADIO STATIONS ORDER ----------#<br>
-stations = [S1, S2, S3]<br>
-</div><br>
+The number of stations is free: add or remove entries, the rotation follows the order
+of the list. A <code>mp3</code> station whose download fails is simply skipped (the
+button never lands on silence) and retried at the next boot.<br><br>
 
-<b>Alignment of the announcements:</b><br>
-Sort the order of the announcements according to the order of the stations (S1 = s1.mp3). <br>
-Also make sure that the number of stations and announcements is the same! 
-<div class="warning" style='padding:0.8em; background-color:#999999; color:black'>
-#---------- ANNOUNCEMENTS ORDER ----------#<br>
-announcements = ["s1.mp3", "s2.mp3", "s3.mp3"]
-</div><br>
 <b>Customized announcements:</b><br>
 You can, of course, generate your own announcements (by recording them yourself or using TTS). For better identification, the name of the station can be played, for example.<br><br>
 
@@ -296,6 +308,65 @@ country=<b>DE</b><br>
 </div><br>
 
 Replace DE with the required country code (for example "GB")
+
+<hr>
+
+<h3 id="auto-update">4.3) Automatic update</h3>
+
+Once the internet connection is confirmed, <b>start.py</b> runs
+<b>updater.py</b> before launching the radio. That script does three things:
+
+<ul>
+<li><b>Code:</b> <code>git fetch</code> + <code>git reset --hard origin/&lt;branch&gt;</code>
+in <code>/root/gusi-radio</code>, so the device always boots on the latest commit
+pushed to GitHub. Local uncommitted changes in that folder are discarded on purpose.</li>
+<li><b>Announcements:</b> the mp3 files of the language folder (FR / EN / DE) are copied
+to <code>/var/lib/mpd/music</code> when they differ, so a new announcement shipped with
+a commit is installed automatically.</li>
+<li><b>Stations:</b> <code>stations.json</code> is downloaded from GitHub
+(raw.githubusercontent.com). Streams are kept as urls, mp3 stations are downloaded to
+<code>/var/lib/mpd/music</code> only when their <code>updated</code> value changed, then
+<code>mpc update</code> refreshes the MPD database.</li>
+</ul>
+
+The resulting list is written to <code>/var/lib/gusi/stations.json</code> and read by
+gusi.py. If the network fails, gusi.py falls back to that cache, then to the
+<code>stations.json</code> of the repository, then to a built-in list: an update failure
+never prevents the radio from playing. Everything is logged to
+<code>/var/log/gusi-update.log</code>.
+
+<b>Configuration</b> — <code>/var/lib/gusi/config.json</code> (created by the setup
+script, outside of the repository so it survives updates):
+
+<div class="warning" style='padding:0.8em; background-color:#999999; color:black'>
+{<br>
+&nbsp;&nbsp;"language": "FR",<br>
+&nbsp;&nbsp;"manifest_url": "https://raw.githubusercontent.com/EnhydraV/radiomichel/main/stations.json",<br>
+&nbsp;&nbsp;"update_code": true<br>
+}
+</div><br>
+
+Set <code>update_code</code> to <code>false</code> to only update the stations and leave
+the code alone. The update can also be triggered by hand at any time:
+
+```
+sudo python3 /root/gusi-radio/updater.py
+```
+
+A periodic check (for radios that stay powered on) can be added with cron:
+```
+sudo crontab -e
+```
+```
+0 4 * * * /usr/bin/python3 /root/gusi-radio/updater.py
+```
+
+<div class="warning" style='padding:0.8em; background-color:#F1C40F; color:black'>
+The automatic update needs the git repository to stay in <code>/root/gusi-radio</code>.
+The <b>setup_gusi_EN.sh</b> and <b>setup_gusi_DE.sh</b> scripts delete
+<code>.git</code> at the end of the installation: only <b>setup_gusi_FR.sh</b> keeps it
+and sets the update up.
+</div>
 
 <hr>
 

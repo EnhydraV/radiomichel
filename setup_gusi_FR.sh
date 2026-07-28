@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#cd /var/lib/mpd/music
-#wget https://radiomichel.enhydra.fr/rm20240111.mp3
+# Les mp3 des stations ne sont plus telecharges a la main : updater.py les
+# recupere depuis stations.json (voir la fin du script).
 
 cd /root/gusi-radio
 git stash
@@ -19,6 +19,16 @@ sudo cp /root/gusi-radio/mpd.conf /etc/
 sudo cp /root/gusi-radio/FR/* /var/lib/mpd/music/
 sudo cp /root/gusi-radio/cleanshutd.conf /etc/
 sudo cp /root/gusi-radio/rc.local /etc/
+
+echo "Configuring auto-update"
+sudo mkdir -p /var/lib/gusi
+sudo tee /var/lib/gusi/config.json > /dev/null <<'EOF'
+{
+  "language": "FR",
+  "manifest_url": "https://raw.githubusercontent.com/EnhydraV/radiomichel/main/stations.json",
+  "update_code": true
+}
+EOF
 
 echo "Cleaning up"
 sudo systemctl stop dphys-swapfile
@@ -39,6 +49,9 @@ sudo service mpd start
 
 echo "Refresh MPD"
 mpc update
+
+echo "First update (stations + downloads)"
+sudo python3 /root/gusi-radio/updater.py
 
 echo "Installation finished. The device will reboot now."
 
